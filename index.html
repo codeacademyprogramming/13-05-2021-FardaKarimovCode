@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/style.css">
+
+</head>
+<body>
+    <div class="number-to-word">
+        <div>
+        <a href="#" class="decrease"> Decrease</a>
+        <a href="#" class="increase">Increase</a>
+        </div>
+        <input type="number" min = "0" max="100000">
+        <h1></h1>
+        <h2>Number-To-Word</h2>
+        <h3></h3>
+    </div>
+<script>
+let input_value = document.querySelector("input");
+let written_text = document.querySelector("h1");
+let words = document.querySelector("h3");
+
+input_value.addEventListener("keyup",() =>{
+    written_text.innerHTML = input_value.value;
+   words.innerHTML = change(Number(written_text.innerHTML));
+    if(input_value.value.length >= 15 ){
+        input_value.value = ""
+    }
+
+    if(input_value.value == "" ){
+        document.querySelector("h3").innerHTML = ""
+    }
+})
+input_value.addEventListener("change",() =>{
+    written_text.innerHTML = input_value.value;
+   words.innerHTML = change(Number(written_text.innerHTML));
+    if(input_value.value.length >= 15 ){
+        input_value.value = ""
+    }
+
+    if(input_value.value == "" ){
+        document.querySelector("h3").innerHTML = ""
+    }
+})
+document.querySelector(".increase").addEventListener("click",() => {input_value.value++; written_text.innerHTML = input_value.value;words.innerHTML = change(Number(written_text.innerHTML))})
+document.querySelector(".decrease").addEventListener("click",() => {input_value.value--; written_text.innerHTML = input_value.value;words.innerHTML = change(Number(written_text.innerHTML))})
+    </script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
