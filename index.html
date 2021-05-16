@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <div class="number-to-word">
+   <div class="number-to-word">
         <div>
         <a href="#" class="decrease"> Decrease</a>
         <a href="#" class="increase">Increase</a>
@@ -19,36 +19,6 @@
         <h2>Number-To-Word</h2>
         <h3></h3>
     </div>
-<script>
-let input_value = document.querySelector("input");
-let written_text = document.querySelector("h1");
-let words = document.querySelector("h3");
-
-input_value.addEventListener("keyup",() =>{
-    written_text.innerHTML = input_value.value;
-   words.innerHTML = change(Number(written_text.innerHTML));
-    if(input_value.value.length >= 15 ){
-        input_value.value = ""
-    }
-
-    if(input_value.value == "" ){
-        document.querySelector("h3").innerHTML = ""
-    }
-})
-input_value.addEventListener("change",() =>{
-    written_text.innerHTML = input_value.value;
-   words.innerHTML = change(Number(written_text.innerHTML));
-    if(input_value.value.length >= 15 ){
-        input_value.value = ""
-    }
-
-    if(input_value.value == "" ){
-        document.querySelector("h3").innerHTML = ""
-    }
-})
-document.querySelector(".increase").addEventListener("click",() => {input_value.value++; written_text.innerHTML = input_value.value;words.innerHTML = change(Number(written_text.innerHTML))})
-document.querySelector(".decrease").addEventListener("click",() => {input_value.value--; written_text.innerHTML = input_value.value;words.innerHTML = change(Number(written_text.innerHTML))})
-    </script>
     <script src="./js/app.js"></script>
 </body>
 </html>
