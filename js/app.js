@@ -1,71 +1,73 @@
-var th = ['','min','milyon', 'milyard','trilyon'];
-var h = ["yüz"];
-var dg = ['Sıfır','Bir','Iki','Üç','Dörd','Beş','Altı','Yeddi','Səkkiz','Doqquz'];
- var tn = ['on','on bir','on iki','on üç', 'on dörd','on beş','on altı', 'on yeddi','on səkkiz','on doqquz'];
- var tw = ['on','iyirmi',
- 'otuz',
- 'qırx',
- 'əlli', 
- 'altmış',
- 'yetmiş',
- 'səksən',
- 'doxsan'];
-
-
-
-
-function change(num){
-
-    num = String(num);
-    if (Number(num == 0)){
-        return dg[0]
+function numberToEnglish( n ) {
+        
+    var string = n.toString(), units, tens, scales, start, end, chunks, chunksLen, chunk, ints, i, word, words, and = 'and';
+    string = string.replace(/[, ]/g,"");
+    if( parseInt( string ) === 0 ) {
+        return 'sıfır';
     }
-    else if (num <= 9 && num >=1){
-        return dg[num]
+    
+    units = [ '', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz', 'on','on bir','on iki','on üç','on dörd','on beş','on altı','on yeddi','on səkkiz','on doqquz'];
+    tens = [ '', '', 'iyirmi', 'otuz', 'qırx', 'əlli', 'altmış', 'yetmiş', 'səksən', 'doxsan' ];
+    scales = [ '', 'min', 'milyon', 'milyard', 'trilyon'];
+    start = string.length;
+    chunks = [];
+    while( start > 0 ) {
+        end = start;
+        chunks.push( string.slice( ( start = Math.max( 0, start - 3 ) ), end ) );
     }
-    else if (num >=10 && num <= 99){
-        if (num % 10 == 0){
-            return tw[(num / 10) - 1]
-        }else{
-            two = Math.floor(num / 10);
-            remain = num - (two * 10)
-            return tw[two - 1] + " " + dg[remain]
+        chunksLen = chunks.length;
+    if( chunksLen > scales.length ) {
+        return '';
+    }
+        words = [];
+    for( i = 0; i < chunksLen; i++ ) {  
+        chunk = parseInt( chunks[i] );
+        if( chunk ) { 
+            ints = chunks[i].split( '' ).reverse().map( parseFloat );
+            if( ints[1] === 1 ) {
+                ints[0] += 10;
+            }
+            if( ( word = scales[i] ) ) {
+                words.push( word );
+            }
+            if( ( word = units[ ints[0] ] ) ) {
+                words.push( word );
+            }
+            if( ( word = tens[ ints[1] ] ) ) {
+                words.push( word );
+            }
+            if( ints[0] || ints[1] ) {
+            }
+            if( ( word = units[ ints[2] ] ) ) {
+                words.push( word + ' yüz' );
+            }
         }
-    }else if (num >= 100 && num <= 999){
-        if(num % 100 == 0){
-            return dg[(num / 100)].concat(h)
-        }else{
-            main = dg[Math.floor(num / 100)] + " " + h;
-            remain = tw[Math.floor((num - (Math.floor(num / 100) * 100)) / 10) - 1]
-            last = dg[Math.floor((num - (Math.floor(num / 100) * 100)) % 10)]
-            return main + " " + remain + " " + last;
-        }
-    }
-    else if (num >= 1000 && num <= 9999){
-        if(num % 1000 == 0){
-            return dg[(num / 1000)] + " " + th[1]
-        }else{
-            let main = dg[Math.floor(num / 1000)] + " " + th[1];
-            let first =  dg[Math.floor((num - (Math.floor(num / 1000) * 1000)) / 100)] + " " + h;
-
-            let remain = tw[Number(String(num)[2]) - 1]
-            let last = dg[Number(String(num)[num.length - 1])];
-            return main + " " + first + " " + remain + " " + last
-        }
-    }
-    else if (num >= 10000 && num <= 99999){
-        if(num % 10000 == 0){
-            return tw[(num / 10000) - 1] + " " + th[1] 
-        }else{
-            let main = tw[num[0] - 1] + " " + dg[num[num.length - 4]] + " " + th[1]
-            let first =  dg[num[num.length - 3]] + " " + h;
-            let middle = tw[num[num.length - 2] - 1];
-            let last = dg[Number(String(num)[num.length - 1])];
-            return main + " " + first + " " + middle + " " + last;
-        }
-    }
-if (num.length > 5){
-    document.querySelector("input").disabled = true;
-}
+    }    return words.reverse().join( ' ' );
 }
 
+let input_value = document.querySelector("input");
+let written_text = document.querySelector("h1");
+let words = document.querySelector("h3");
+input_value.addEventListener("keyup",() =>{
+    written_text.innerHTML = input_value.value;
+   words.innerHTML = numberToEnglish(Number(written_text.innerHTML));
+    if(input_value.value.length >= 15 ){
+        input_value.value = ""
+    }
+    if(input_value.value == "" ){
+        document.querySelector("h3").innerHTML = ""
+    }
+})
+input_value.addEventListener("change",() =>{
+    written_text.innerHTML = input_value.value;
+   words.innerHTML = numberToEnglish(Number(written_text.innerHTML));
+    if(input_value.value.length >= 15 ){
+        input_value.value = ""
+    }
+    if(input_value.value == "" ){
+        document.querySelector("h3").innerHTML = ""
+    }
+})
+document.querySelector(".increase").addEventListener("click",() => {input_value.value++; written_text.innerHTML = input_value.value;words.innerHTML = numberToEnglish(Number(written_text.innerHTML))})
+document.querySelector(".decrease").addEventListener("click",() => {input_value.value--; written_text.innerHTML = input_value.value;words.innerHTML = numberToEnglish(Number(written_text.innerHTML))})
+  
